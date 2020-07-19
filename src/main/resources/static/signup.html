@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+</head>
+<body>
+
+    <label for="firstName">First name:</label>
+    <input type="text" id="firstName" name="firstName" value="Rohit"><br><br>
+    <label for="lastName">Last name:</label>
+    <input type="text" id="lastName" name="lastName" value="Pandit"><br><br>
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email" value="pandit.rohit0007@gmail.com"><br><br>
+    <label for="phone">Phone:</label>
+    <input type="text" id="phone" name="phone" value="8878942625"><br><br>
+    <div>Date of Birth</div><br>
+    <label for="day"> Day: </label>
+    <input type="text" id="day" name="day" value="26">
+    <label for="month">Month:</label>
+    <input type="text" id="month" name="month" value="06">
+    <label for="year">Year:</label>
+    <input type="text" id="year" name="year" value="1997"><br><br>
+    <div>Billing Address</div><br>
+    <label for="street">Street:</label>
+    <input type="text" id="street" name="street" value="Jr. MIG 60"><br><br>
+    <label for="colony">Colony:</label>
+    <input type="text" id="colony" name="colony" value="Mukhrjee Nagar"><br><br>
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city" value="Dewas"><br><br>
+    <label for="zip">Zip:</label>
+    <input type="text" id="zip" name="zip" value="455001"><br><br>
+    <label for="country">Country:</label>
+    <input type="text" id="country" name="country" value="US"><br><br>
+    <label for="state">State:</label>
+    <input type="text" id="state" name="state" value="CA"><br><br>
+    <input type="submit" value="Submit" id="submit_btn">
+    <div id="msg"></div>
+    <div id="redirecting"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function sendData(){
+        console.log("event to submit button is attachec and send data method is called");
+        let customer={
+            "firstName":$("#firstName").val(),
+            "lastName":$("#lastName").val(),
+            "email":$("#email").val(),
+            "phone":$("#phone").val(),
+            "day":$("#day").val(),
+            "month":$("#month").val(),
+            "year":$("#year").val(),
+            "street":$("#street").val(),
+            "colony":$("#colony").val(),
+            "city":$("#city").val(),
+            "zip":$("#zip").val(),
+            "country":$("#country").val(),
+            "state":$("#state").val()
+        }
+        console.log(customer);
+        //$.ajaxSetup({async:false});
+        $.ajax('/signup',
+            {
+                type:'POST',
+                data:JSON.stringify(customer),
+                processData:false,
+                success:function(data,status,xhr){
+                    console.log("data received from server");
+                    console.log(data);
+                    console.log(status);
+                    console.log(xhr);
+                    if(data==="user found"){
+                        $("#msg").text("This email id is already registered. Try Login");
+                        $("#redirecting").text("Redirecting to home page");
+                        //javascript sleep for 1-2 seconds
+                        //await new Promise(r => setTimeout(r, 2000));
+                        window.location="/home.html";
+                    }
+                    else{
+                        window.location="/items/"+customer.email;
+                    }
+                },
+                error:function(jqXhr,textStatus,errorMessage){
+                    console.log("error in communicating with server");
+                    window.location="/signup.html";
+                },
+                contentType:"application/json"
+            });
+    }
+    $("#submit_btn").click(sendData);
+</script>
+</body>
+</html>
