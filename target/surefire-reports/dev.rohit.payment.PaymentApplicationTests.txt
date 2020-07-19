@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: dev.rohit.payment.PaymentApplicationTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.867 s - in dev.rohit.payment.PaymentApplicationTests
